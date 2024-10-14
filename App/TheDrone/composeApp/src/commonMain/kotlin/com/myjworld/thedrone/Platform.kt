@@ -1,7 +1,8 @@
 package com.myjworld.thedrone
 
-interface Platform {
-    val name: String
-}
+import androidx.compose.runtime.Composable
 
-expect fun getPlatform(): Platform
+expect fun getPlatform(): String
+
+@Composable
+expect fun getSize(): String
