@@ -20,7 +20,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "The Drone",
         icon = icon,
-        resizable = false,
         state = windowState
     ) {
         App()

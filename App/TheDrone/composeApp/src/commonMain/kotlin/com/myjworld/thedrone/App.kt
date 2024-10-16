@@ -101,7 +101,7 @@ fun NavigationBar() {
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxHeight()
-                .fillMaxWidth(0.2f)
+                .width(350.dp)
                 .clip(RoundedCornerShape(25.dp))
                 .clickable {
                     navigation.navigate("home")
@@ -123,8 +123,7 @@ fun NavigationBar() {
                 fontWeight = FontWeight.Bold
             )
         }
-        Row { }
-        Row { }
+        Row { Text("${getPlatform()} - ${getSize()}") }
     }
 }
 
@@ -155,13 +154,12 @@ fun HomeScreen() {
         val coroutineScope = rememberCoroutineScope()
 
         Scaffold(
+            scaffoldState = scaffoldState,
             topBar = { NavigationBar() },
             drawerContent = { NavigationDrawer() },
             bottomBar = { BottomBar() }
         ) {
-            coroutineScope.launch {
-                scaffoldState.drawerState.close()
-            }
+
         }
     }
 }
