@@ -59,6 +59,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
 
             implementation(libs.navigation.compose)
+//            implementation(libs.font.awesome)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

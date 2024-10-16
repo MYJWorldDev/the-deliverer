@@ -22,17 +22,21 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
@@ -65,9 +69,31 @@ fun App() {
 //            }
 //        }
 
-        Navigation(navController)
+        val scaffoldState = rememberScaffoldState()
+        val coroutineScope = rememberCoroutineScope()
+
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = { NavigationBar() },
+            drawerContent = { NavigationDrawer() },
+            bottomBar = { BottomBar() },
+            drawerGesturesEnabled = getSize() != "Small"
+        ) {
+            Navigation(navController)
+        }
     }
 }
+
+data class Screen(
+    val title: String,
+    val route: String,
+    val screen: @Composable () -> Unit
+)
+
+val screens = listOf(
+    Screen("Home", "home") { HomeScreen() },
+    Screen("About", "about") { AboutScreen() }
+)
 
 @Composable
 fun Navigation(navController: NavHostController) {
@@ -76,23 +102,35 @@ fun Navigation(navController: NavHostController) {
         startDestination = "home",
         modifier = Modifier.fillMaxSize()
     ) {
-        composable("home") {
-            HomeScreen()
-        }
-        composable("about") {
-            AboutScreen()
+        screens.forEach { screen ->
+            composable(screen.route) {
+                screen.screen()
+            }
         }
     }
 }
 
 @Composable
 fun NavigationBar() {
+    var refresher by remember { mutableStateOf(0) }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    fun refresh() {
+        coroutineScope.launch {
+            delay(1000)
+            if (refresher <= 10) refresher++ else refresher = 0
+        }
+    }
+
+    refresh()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .background(Colors.primary)
-            .padding(15.dp),
+            .background(Colors.container)
+            .padding((15 + refresher - refresher).dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -101,7 +139,7 @@ fun NavigationBar() {
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxHeight()
-                .width(350.dp)
+                .width(250.dp)
                 .clip(RoundedCornerShape(25.dp))
                 .clickable {
                     navigation.navigate("home")
@@ -111,25 +149,67 @@ fun NavigationBar() {
                 bitmap = imageResource(Res.drawable.ic),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(70.dp)
+                    .size(50.dp)
                     .clip(RoundedCornerShape(100.dp))
             )
             Spacer(Modifier.width(10.dp))
             Text(
                 text = "The Drone",
                 color = Colors.onPrimary,
-                fontSize = typography.h4.fontSize,
-                style = typography.h4,
+                fontSize = typography.h5.fontSize,
+                style = typography.h5,
                 fontWeight = FontWeight.Bold
             )
         }
-        Row { Text("${getPlatform()} - ${getSize()}") }
+        Row {
+            if (getSize() == "Small") {
+                Image(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable {
+                            navigation.navigate("home")
+                        }
+                )
+            } else {
+                screens.forEach { screen ->
+                    NavigationBarItem(
+                        label = screen.title,
+                        selected = navigation.currentDestination?.route == screen.route,
+                        onClick = {
+                            navigation.navigate(screen.route)
+                        }
+                    )
+                    Spacer(Modifier.width(15.dp))
+                }
+            }
+            Spacer(Modifier.width(15.dp))
+        }
     }
 }
 
 @Composable
 fun NavigationDrawer() {
 
+}
+
+@Composable
+fun NavigationBarItem(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit = {}
+) {
+    Text(
+        text = label,
+        color = if (selected) Colors.onContainerVariant else Colors.onContainer,
+        fontSize = typography.h5.fontSize,
+        style = typography.h5,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.clickable {
+            onClick()
+        }
+    )
 }
 
 @Composable
@@ -149,19 +229,7 @@ fun HomeScreen() {
             .fillMaxSize()
             .background(Colors.background),
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        val scaffoldState = rememberScaffoldState()
-        val coroutineScope = rememberCoroutineScope()
-
-        Scaffold(
-            scaffoldState = scaffoldState,
-            topBar = { NavigationBar() },
-            drawerContent = { NavigationDrawer() },
-            bottomBar = { BottomBar() }
-        ) {
-
-        }
-    }
+    ) { }
 }
 
 @Composable
