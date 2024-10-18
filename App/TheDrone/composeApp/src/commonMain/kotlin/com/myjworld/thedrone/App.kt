@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,8 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -23,6 +26,8 @@ import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Face
@@ -42,17 +47,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -323,7 +332,7 @@ fun NavigationDrawerItem(
 
 @Composable
 fun BottomBar() {
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Colors.container),
@@ -359,18 +368,25 @@ fun HomeScreen() {
     )
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(25.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
+        Title(
             text = "The Drone",
-            color = Colors.onPrimary,
-            fontSize = typography.h2.fontSize,
-            style = typography.h2,
-            fontWeight = FontWeight.Bold
+            color = Colors.onPrimaryVariant
         )
-        Spacer(Modifier.height(100.dp))
+        Spacer(Modifier.height(20.dp))
+        Text(
+            text = "Lorem ipsum odor amet, consectetuer adipiscing elit.",
+            color = Colors.onPrimary,
+            fontSize = typography.h6.fontSize,
+            style = typography.h6,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+        Spacer(Modifier.height(20.dp))
         Button(
             onClick = {
                 navigation.navigate("objective")
@@ -393,7 +409,7 @@ fun HomeScreen() {
             )
             Spacer(Modifier.width(10.dp))
             Image(
-                imageVector = Icons.Default.ArrowForward,
+                imageVector = Icons.AutoMirrored.Default.ArrowForward,
                 contentDescription = null,
                 modifier = Modifier
                     .size(30.dp),
@@ -408,22 +424,135 @@ fun ObjectiveScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.background),
+            .background(Colors.primary)
+            .padding(25.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Title(
+            text = "Objective",
+            color = Colors.onPrimaryVariant
+        )
+        DecorLine()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.7f)
+                .clip(RoundedCornerShape(100.dp))
+                .background(Colors.background)
+                .padding(25.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "“Lorem ipsum odor amet, consectetuer adipiscing elit. Tortor turpis interdum semper cras erat eleifend suscipit. Ipsum quis vel sociosqu vulputate mollis amet praesent tincidunt.”",
+                color = Colors.onPrimary,
+                fontSize = 24.sp,
+                style = typography.h4,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+        }
+        Spacer(Modifier.height(20.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PreviousButton {
+                navigation.navigate("home")
+            }
+            Spacer(Modifier.width(10.dp))
+            HomeButton()
+            Spacer(Modifier.width(10.dp))
+            NextButton {
+                navigation.navigate("members")
+            }
 
+        }
     }
 }
 
 @Composable
 fun MembersScreen() {
+    @Composable
+    fun Member(
+        name: String,
+        role: String,
+        image: DrawableResource
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(50.dp))
+                .background(Colors.background)
+                .padding(25.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                bitmap = imageResource(image),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(70.dp)
+                    .clip(RoundedCornerShape(25.dp))
+            )
+            Spacer(Modifier.height(20.dp))
+            Text(
+                text = name,
+                color = Colors.onPrimary,
+                fontSize = 30.sp,
+                style = typography.h4,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+            Spacer(Modifier.height(10.dp))
+            Text(
+                text = role,
+                color = Colors.onPrimary,
+                fontSize = 18.sp,
+                style = typography.h4,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+        }
+        Spacer(Modifier.height(20.dp))
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.background),
+            .background(Colors.primary)
+            .padding(25.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Title(
+            text = "Members",
+            color = Colors.onPrimaryVariant
+        )
+        DecorLine()
+        Member(
+            name = "John Doe",
+            role = "CEO",
+            image = Res.drawable.ic
+        )
+        Spacer(Modifier.height(20.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PreviousButton {
+                navigation.navigate("objective")
+            }
+            Spacer(Modifier.width(10.dp))
+            HomeButton()
+            Spacer(Modifier.width(10.dp))
+            NextButton {
+                navigation.navigate("features")
+            }
 
+        }
     }
 }
 
@@ -432,10 +561,51 @@ fun FeaturesScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.background),
+            .background(Colors.primary)
+            .padding(25.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Title(
+            text = "Features",
+            color = Colors.onPrimaryVariant
+        )
+        DecorLine()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.7f)
+                .clip(RoundedCornerShape(100.dp))
+                .background(Colors.background)
+                .padding(25.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "“Lorem ipsum odor amet, consectetuer adipiscing elit. Tortor turpis interdum semper cras erat eleifend suscipit. Ipsum quis vel sociosqu vulputate mollis amet praesent tincidunt.”",
+                color = Colors.onPrimary,
+                fontSize = 24.sp,
+                style = typography.h4,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+        }
+        Spacer(Modifier.height(20.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PreviousButton {
+                navigation.navigate("members")
+            }
+            Spacer(Modifier.width(10.dp))
+            HomeButton()
+            Spacer(Modifier.width(10.dp))
+            NextButton {
+                navigation.navigate("gallery")
+            }
 
+        }
     }
 }
 
@@ -444,10 +614,51 @@ fun GalleryScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.background),
+            .background(Colors.primary)
+            .padding(25.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Title(
+            text = "Gallery",
+            color = Colors.onPrimaryVariant
+        )
+        DecorLine()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.7f)
+                .clip(RoundedCornerShape(100.dp))
+                .background(Colors.background)
+                .padding(25.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "“Lorem ipsum odor amet, consectetuer adipiscing elit. Tortor turpis interdum semper cras erat eleifend suscipit. Ipsum quis vel sociosqu vulputate mollis amet praesent tincidunt.”",
+                color = Colors.onPrimary,
+                fontSize = 24.sp,
+                style = typography.h4,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+        }
+        Spacer(Modifier.height(20.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PreviousButton {
+                navigation.navigate("features")
+            }
+            Spacer(Modifier.width(10.dp))
+            HomeButton()
+            Spacer(Modifier.width(10.dp))
+            NextButton {
+                navigation.navigate("home")
+            }
 
+        }
     }
 }
 
@@ -460,5 +671,116 @@ fun ImageViewerScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+    }
+}
+
+@Composable
+fun Title(text: String, color: Color) {
+    Text(
+        text = text,
+        color = color,
+        fontSize = typography.h2.fontSize,
+        style = typography.h2,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+fun DecorLine() {
+    Spacer(Modifier.height(10.dp))
+    Box(
+        modifier = Modifier
+            .width(150.dp)
+            .height(4.dp)
+            .clip(RoundedCornerShape(100.dp))
+            .background(Colors.onPrimaryContrast)
+    )
+    Spacer(Modifier.height(30.dp))
+}
+
+@Composable
+fun NextButton(onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Colors.container,
+            contentColor = Colors.onContainer
+        ),
+        modifier = Modifier
+            .width(160.dp)
+            .clip(RoundedCornerShape(100.dp))
+    ) {
+        Spacer(Modifier.height(40.dp))
+        Text(
+            text = "Next",
+            color = Colors.onContainer,
+            fontSize = typography.h6.fontSize,
+            style = typography.h6,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(Modifier.width(10.dp))
+        Image(
+            imageVector = Icons.AutoMirrored.Default.ArrowForward,
+            contentDescription = null,
+            modifier = Modifier
+                .size(30.dp),
+            colorFilter = ColorFilter.tint(Colors.onContainer)
+        )
+    }
+}
+
+@Composable
+fun PreviousButton(onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Colors.container,
+            contentColor = Colors.onContainer
+        ),
+        modifier = Modifier
+            .width(160.dp)
+            .clip(RoundedCornerShape(100.dp))
+    ) {
+        Spacer(Modifier.height(40.dp))
+        Image(
+            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+            contentDescription = null,
+            modifier = Modifier
+                .size(30.dp),
+            colorFilter = ColorFilter.tint(Colors.onContainer)
+        )
+        Spacer(Modifier.width(10.dp))
+        Text(
+            text = "Previous",
+            color = Colors.onContainer,
+            fontSize = typography.h6.fontSize,
+            style = typography.h6,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun HomeButton() {
+    Button(
+        onClick = {
+            navigation.navigate("home")
+        },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Colors.container,
+            contentColor = Colors.onContainer
+        ),
+        modifier = Modifier
+            .width(56.dp)
+            .clip(RoundedCornerShape(100.dp))
+    ) {
+        Spacer(Modifier.height(40.dp))
+        Image(
+            imageVector = Icons.Default.Home,
+            contentDescription = null,
+            modifier = Modifier
+                .size(30.dp),
+            colorFilter = ColorFilter.tint(Colors.onContainer)
+        )
     }
 }
