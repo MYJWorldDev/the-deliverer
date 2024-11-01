@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -35,8 +36,10 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.sharp.Add
 import androidx.compose.material.icons.sharp.Face
 import androidx.compose.material.icons.sharp.Home
@@ -132,6 +135,20 @@ val screens = listOf(
     Screen("Members", "members", Icons.Sharp.Person) { MembersScreen() },
     Screen("Features", "features", Icons.Sharp.Add) { FeaturesScreen() },
     Screen("Gallery", "gallery", Icons.Sharp.Face) { GalleryScreen() },
+//    Screen("Themes", "themes", Icons.Default.Settings) { ThemesScreen() }
+)
+
+data class Palette(
+    val name: String,
+    val primary: Color,
+    val onPrimary: Color,
+    val onPrimaryContrast: Color,
+    val primaryVariant: Color,
+    val onPrimaryVariant: Color,
+    val container: Color,
+    val onContainer: Color,
+    val onContainerVariant: Color,
+    val background: Color
 )
 
 @Composable
@@ -230,6 +247,12 @@ fun NavigationBar(
                     Spacer(Modifier.width(15.dp))
                 }
             }
+//            Image(
+//                imageVector = Icons.Default.KeyboardArrowDown,
+//                contentDescription = "Download App",
+//                modifier = Modifier,
+//                colorFilter = ColorFilter.tint(Colors.onContainerVariant)
+//            )
             Spacer(Modifier.width(15.dp))
         }
     }
@@ -385,7 +408,7 @@ fun HomeScreen() {
         )
         Spacer(Modifier.height(20.dp))
         Text(
-            text = "Lorem ipsum odor amet, consectetuer adipiscing elit.",
+            text = "The next stage of technological revolution of deliverability hassle-free.",
             color = Colors.onPrimary,
             fontSize = typography.h6.fontSize,
             style = typography.h6,
@@ -442,16 +465,16 @@ fun ObjectiveScreen() {
         DecorLine()
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(if (getSize() == "Small") 450.dp else 150.dp)
+                .fillMaxWidth(if (getSize() == "Small") 0.9f else 0.8f)
+                .height(if (getSize() == "Small") 450.dp else 200.dp)
                 .clip(RoundedCornerShape(100.dp))
                 .background(Colors.background)
-                .padding(25.dp),
+                .padding(50.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "“Lorem ipsum odor amet, consectetuer adipiscing elit. Tortor turpis interdum semper cras erat eleifend suscipit. Ipsum quis vel sociosqu vulputate mollis amet praesent tincidunt.”",
+                text = "“If sending messages online is easy, then delivering physical objects should be too. Drones equally hold the potential to share physical objects as hassle-free as digital data.”",
                 color = Colors.onPrimary,
                 fontSize = 24.sp,
                 style = typography.h4,
@@ -543,14 +566,14 @@ fun MembersScreen() {
         DecorLine()
         if (getSize() == "Small") {
             Member(
-                name = "M. Musab Khan",
-                role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
-                image = Res.drawable.musab
-            )
-            Member(
                 name = "M. Abdullah Umair",
                 role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
                 image = Res.drawable.abd
+            )
+            Member(
+                name = "M. Musab Khan",
+                role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                image = Res.drawable.musab
             )
             Member(
                 name = "M. Yousuf Jamil",
@@ -558,7 +581,7 @@ fun MembersScreen() {
                 image = Res.drawable.myj
             )
             Member(
-                name = "M. Faiq",
+                name = "M. Faaiq",
                 role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
                 image = Res.drawable.faiq
             )
@@ -568,15 +591,15 @@ fun MembersScreen() {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Member(
-                    name = "M. Musab Khan",
-                    role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
-                    image = Res.drawable.musab
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Member(
                     name = "M. Abdullah Umair",
                     role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
                     image = Res.drawable.abd
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Member(
+                    name = "M. Musab Khan",
+                    role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                    image = Res.drawable.musab
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Member(
@@ -586,7 +609,7 @@ fun MembersScreen() {
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Member(
-                    name = "M. Faiq",
+                    name = "M. Faaiq",
                     role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
                     image = Res.drawable.faiq
                 )
@@ -904,7 +927,7 @@ fun ImageViewerScreen() {
         val imageToShow = AppData.getImage()
         Spacer(modifier = Modifier.height(20.dp))
         Row {
-            Spacer(Modifier.width(5.dp))
+            Spacer(Modifier.width(15.dp))
             PreviousButton {
                 navigation.navigate("gallery")
             }
@@ -916,6 +939,197 @@ fun ImageViewerScreen() {
             modifier = Modifier
                 .fillMaxSize()
         )
+    }
+}
+
+@Composable
+fun ThemesScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Colors.background)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Spacer(modifier = Modifier.height(20.dp))
+        Row {
+            Spacer(Modifier.width(15.dp))
+            PreviousButton {
+                navigation.navigate("home")
+            }
+        }
+
+        @Composable
+        fun Theme(
+            name: String,
+            primary: Color,
+            onPrimary: Color,
+            onPrimaryContrast: Color,
+            primaryVariant: Color,
+            onPrimaryVariant: Color,
+            container: Color,
+            onContainer: Color,
+            onContainerVariant: Color,
+            background: Color
+        ) {
+            var showMsg by remember { mutableStateOf(false) }
+            Box(
+                modifier = Modifier
+                    .width(375.dp)
+                    .height(260.dp)
+                    .clip(RoundedCornerShape(50.dp))
+                    .background(primary)
+                    .clickable {
+                        Colors.primary = primary
+                        Colors.onPrimary = onPrimary
+                        Colors.onPrimaryContrast = onPrimaryContrast
+                        Colors.primaryVariant = primaryVariant
+                        Colors.onPrimaryVariant = onPrimaryVariant
+                        Colors.container = container
+                        Colors.onContainer = onContainer
+                        Colors.onContainerVariant = onContainerVariant
+                        Colors.background = background
+
+                        showMsg = true
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = name,
+                    color = onPrimary,
+                    fontSize = 30.sp,
+                    style = typography.h4,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            if (showMsg) {
+                AlertDialog(
+                    onDismissRequest = { showMsg = false },
+                    title = {
+                        Text(
+                            text = "Theme Changed.",
+                            color = onPrimary,
+                            fontSize = 24.sp,
+                            style = typography.h4,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    buttons = {
+                        Button(
+                            onClick = { showMsg = false },
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = primary,
+                                contentColor = onPrimary
+                            )
+                        ) {
+                            Text(
+                                text = "OK",
+                                color = onPrimary,
+                                fontSize = 24.sp,
+                                style = typography.h4,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                )
+                showMsg = false
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+
+        val themes = listOf(
+            Palette(
+                name = "Default",
+                primary = Color(0xFF394379),
+                onPrimary = Color(0xFFdee0ff),
+                onPrimaryContrast = Color(0xFF11184a),
+                primaryVariant = Color(0xFF515b92),
+                onPrimaryVariant = Color(0xFFffffff),
+                container = Color(0xFF202c61),
+                onContainer = Color(0xFFb9c3ff),
+                onContainerVariant = Color(0xFFffb4ab),
+                background = Color(0xFF000614)
+            ),
+            Palette(
+                name = "Red",
+                primary = Color(0xFFFF3E5B),
+                onPrimary = Color(0xFFFFFFFF),
+                onPrimaryContrast = Color(0xFF000000),
+                primaryVariant = Color(0xFF9A0036),
+                onPrimaryVariant = Color(0xFFFFFFFF),
+                container = Color(0xFFE8B7B9),
+                onContainer = Color(0xFF000000),
+                onContainerVariant = Color(0xFF202020),
+                background = Color(0xFFFFFFFF)
+            ),
+            Palette(
+                name = "Teal",
+                primary = Color(0xFF3E9A8A),
+                onPrimary = Color(0xFFFFFFFF),
+                onPrimaryContrast = Color(0xFF000000),
+                primaryVariant = Color(0xFF006767),
+                onPrimaryVariant = Color(0xFFFFFFFF),
+                container = Color(0xFFB7D4D4),
+                onContainer = Color(0xFF000000),
+                onContainerVariant = Color(0xFF202020),
+                background = Color(0xFFFFFFFF)
+            ),
+            Palette(
+                name = "Orange",
+                primary = Color(0xFFFF9A00),
+                onPrimary = Color(0xFFFFFFFF),
+                onPrimaryContrast = Color(0xFF000000),
+                primaryVariant = Color(0xFF9A6700),
+                onPrimaryVariant = Color(0xFFFFFFFF),
+                container = Color(0xFFE8D4B7),
+                onContainer = Color(0xFF000000),
+                onContainerVariant = Color(0xFF202020),
+                background = Color(0xFFFFFFFF)
+            )
+        )
+
+        if (getSize() == "Small") {
+            themes.forEach { theme ->
+                Theme(
+                    name = theme.name,
+                    primary = theme.primary,
+                    onPrimary = theme.onPrimary,
+                    onPrimaryContrast = theme.onPrimaryContrast,
+                    primaryVariant = theme.primaryVariant,
+                    onPrimaryVariant = theme.onPrimaryVariant,
+                    container = theme.container,
+                    onContainer = theme.onContainer,
+                    onContainerVariant = theme.onContainerVariant,
+                    background = theme.background
+                )
+            }
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                themes.forEach { theme ->
+                    Theme(
+                        name = theme.name,
+                        primary = theme.primary,
+                        onPrimary = theme.onPrimary,
+                        onPrimaryContrast = theme.onPrimaryContrast,
+                        primaryVariant = theme.primaryVariant,
+                        onPrimaryVariant = theme.onPrimaryVariant,
+                        container = theme.container,
+                        onContainer = theme.onContainer,
+                        onContainerVariant = theme.onContainerVariant,
+                        background = theme.background
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(50.dp))
     }
 }
 
