@@ -607,13 +607,13 @@ fun MembersScreen() {
                     role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
                     image = Res.drawable.myj
                 )
-                Spacer(modifier = Modifier.width(10.dp))
-                Member(
-                    name = "M. Faaiq",
-                    role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
-                    image = Res.drawable.faiq
-                )
             }
+            Spacer(modifier = Modifier.height(10.dp))
+            Member(
+                name = "M. Faaiq",
+                role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                image = Res.drawable.faiq
+            )
         }
         Spacer(Modifier.height(20.dp))
         Row(
