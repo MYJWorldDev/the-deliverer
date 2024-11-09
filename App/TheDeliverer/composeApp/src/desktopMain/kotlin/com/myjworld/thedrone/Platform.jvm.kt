@@ -1,7 +1,12 @@
 package com.myjworld.thedrone
 
-class JVMPlatform: Platform {
-    override val name: String = "Java ${System.getProperty("java.version")}"
+import androidx.compose.runtime.Composable
+
+actual fun getPlatform(): String {
+    return "Java ${System.getProperty("java.version")}"
 }
 
-actual fun getPlatform(): Platform = JVMPlatform()
+@Composable
+actual fun getSize(): String {
+    return "Large"
+}
