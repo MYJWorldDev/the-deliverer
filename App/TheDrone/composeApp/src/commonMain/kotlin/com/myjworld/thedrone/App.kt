@@ -2,6 +2,7 @@ package com.myjworld.thedrone
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,6 +32,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Face
@@ -68,11 +70,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.imageResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import thedrone.composeapp.generated.resources.Res
 import thedrone.composeapp.generated.resources.abd
 import thedrone.composeapp.generated.resources.bg
+import thedrone.composeapp.generated.resources.download
 import thedrone.composeapp.generated.resources.faiq
 import thedrone.composeapp.generated.resources.ic
 import thedrone.composeapp.generated.resources.musab
@@ -247,12 +251,29 @@ fun NavigationBar(
                     Spacer(Modifier.width(15.dp))
                 }
             }
-//            Image(
-//                imageVector = Icons.Default.KeyboardArrowDown,
-//                contentDescription = "Download App",
-//                modifier = Modifier,
-//                colorFilter = ColorFilter.tint(Colors.onContainerVariant)
-//            )
+            if (getPlatform() == "Web with Kotlin/Wasm") {
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clip(RoundedCornerShape(100.dp))
+                        .background(Colors.primary)
+                        .border(2.dp, Colors.onPrimary, RoundedCornerShape(100.dp))
+                        .clickable {
+                            downloadApp("https://myj.rf.gd")
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(Res.drawable.download),
+                        contentDescription = "Download App",
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .fillMaxHeight(0.5f),
+                        contentScale = ContentScale.FillBounds,
+                        colorFilter = ColorFilter.tint(Colors.onPrimary)
+                    )
+                }
+            }
             Spacer(Modifier.width(15.dp))
         }
     }
