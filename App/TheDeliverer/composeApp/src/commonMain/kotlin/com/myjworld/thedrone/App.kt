@@ -66,6 +66,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.myjworld.thedrone.Fonts.poppins
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
@@ -223,7 +224,8 @@ fun NavigationBar(
                 color = Colors.onContainer,
                 fontSize = typography.h5.fontSize,
                 style = typography.h5,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Medium,
+                fontFamily = poppins
             )
         }
         Row {
@@ -248,7 +250,7 @@ fun NavigationBar(
                             navigation.navigate(screen.route)
                         }
                     )
-                    Spacer(Modifier.width(15.dp))
+                    Spacer(Modifier.width(30.dp))
                 }
             }
             if (getPlatform() == "Web with Kotlin/Wasm") {
@@ -290,7 +292,8 @@ fun NavigationBarItem(
         color = if (selected) Colors.onContainerVariant else Colors.onContainer,
         fontSize = typography.h5.fontSize,
         style = typography.h5,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
+        fontFamily = poppins,
         modifier = Modifier.clickable {
             onClick()
         }
@@ -326,10 +329,11 @@ fun NavigationDrawer(
                 color = Colors.onPrimary,
                 fontSize = typography.h4.fontSize,
                 style = typography.h4,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = poppins
             )
         }
-        Spacer(Modifier.height(15.dp))
+        Spacer(Modifier.height(60.dp))
         screens.forEach { screen ->
             NavigationDrawerItem(
                 label = screen.title,
@@ -375,7 +379,8 @@ fun NavigationDrawerItem(
             color = Colors.onPrimaryVariant,
             fontSize = typography.h6.fontSize,
             style = typography.h6,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Normal,
+            fontFamily = poppins
         )
     }
 }
@@ -400,7 +405,8 @@ fun BottomBar() {
                 color = Colors.onContainer,
                 fontSize = typography.h6.fontSize,
                 style = typography.h6,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = poppins
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
@@ -413,8 +419,7 @@ fun HomeScreen() {
         bitmap = imageResource(Res.drawable.bg),
         contentDescription = null,
         modifier = Modifier.fillMaxSize().blur(10.dp),
-        contentScale = ContentScale.Crop,
-//        colorFilter = ColorFilter.tint(Colors.background, blendMode = BlendMode.Overlay)
+        contentScale = ContentScale.Crop
     )
     Column(
         modifier = Modifier
@@ -433,8 +438,9 @@ fun HomeScreen() {
             color = Colors.onPrimary,
             fontSize = typography.h6.fontSize,
             style = typography.h6,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Center,
+            fontFamily = poppins
         )
         Spacer(Modifier.height(20.dp))
         Button(
@@ -455,7 +461,8 @@ fun HomeScreen() {
                 color = Colors.onPrimary,
                 fontSize = typography.h6.fontSize,
                 style = typography.h6,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = poppins
             )
             Spacer(Modifier.width(10.dp))
             Image(
@@ -499,8 +506,9 @@ fun ObjectiveScreen() {
                 color = Colors.onPrimary,
                 fontSize = 24.sp,
                 style = typography.h4,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                fontFamily = poppins
             )
         }
         Spacer(Modifier.height(20.dp))
@@ -556,7 +564,8 @@ fun MembersScreen() {
                 color = Colors.onPrimary,
                 fontSize = 30.sp,
                 style = typography.h4,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = poppins,
                 textAlign = TextAlign.Center
             )
             Spacer(Modifier.height(10.dp))
@@ -565,7 +574,8 @@ fun MembersScreen() {
                 color = Colors.onPrimaryVariant,
                 fontSize = 18.sp,
                 style = typography.h4,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
+                fontFamily = poppins,
                 textAlign = TextAlign.Center
             )
         }
@@ -696,7 +706,8 @@ fun FeaturesScreen() {
                         color = Colors.onPrimaryVariant,
                         fontSize = 30.sp,
                         style = typography.h4,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = poppins
                     )
                 }
                 Spacer(Modifier.width(10.dp))
@@ -712,7 +723,9 @@ fun FeaturesScreen() {
                         text = description,
                         color = Colors.onPrimary,
                         fontSize = 18.sp,
-                        style = typography.h4
+                        style = typography.h4,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = poppins
                     )
                 }
             }
@@ -860,7 +873,8 @@ fun GalleryScreen() {
                     color = Colors.onPrimary,
                     fontSize = typography.h6.fontSize,
                     style = typography.h6,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = poppins
                 )
             }
         }
@@ -1161,7 +1175,8 @@ fun Title(text: String, color: Color) {
         color = color,
         fontSize = typography.h2.fontSize,
         style = typography.h2,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.SemiBold,
+        fontFamily = poppins
     )
 }
 
