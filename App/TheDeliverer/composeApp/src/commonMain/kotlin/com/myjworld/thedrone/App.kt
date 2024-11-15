@@ -30,18 +30,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.sharp.Add
 import androidx.compose.material.icons.sharp.Face
 import androidx.compose.material.icons.sharp.Home
@@ -53,7 +46,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -139,6 +131,8 @@ val screens = listOf(
     Screen("Objective", "objective", Icons.Sharp.Info) { ObjectiveScreen() },
     Screen("Members", "members", Icons.Sharp.Person) { MembersScreen() },
     Screen("Features", "features", Icons.Sharp.Add) { FeaturesScreen() },
+    Screen("Map", "map", Icons.Default.LocationOn) { MapScreen() },
+    Screen("Prospects", "prospects", Icons.Default.KeyboardArrowRight) { ProspectsScreen() },
     Screen("Gallery", "gallery", Icons.Sharp.Face) { GalleryScreen() },
 //    Screen("Themes", "themes", Icons.Default.Settings) { ThemesScreen() }
 )
@@ -261,7 +255,7 @@ fun NavigationBar(
                         .background(Colors.primary)
                         .border(2.dp, Colors.onPrimary, RoundedCornerShape(100.dp))
                         .clickable {
-                            downloadApp("https://myj.rf.gd")
+                            downloadApp("https://myj-world.github.io/the-deliverer/download.html")
                         },
                     contentAlignment = Alignment.Center
                 ) {
@@ -591,29 +585,29 @@ fun MembersScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Title(
-            text = "Members",
+            text = "The Team",
             color = Colors.onPrimaryVariant
         )
         DecorLine()
         if (getSize() == "Small") {
             Member(
                 name = "M. Abdullah Umair",
-                role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                role = "Project Developer, Main coder of microchip",
                 image = Res.drawable.abd
             )
             Member(
                 name = "M. Musab Khan",
-                role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                role = "Assisted in Development, Made of physical hardware",
                 image = Res.drawable.musab
             )
             Member(
                 name = "M. Yousuf Jamil",
-                role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                role = "Android App, Desktop App & Website Developer",
                 image = Res.drawable.myj
             )
             Member(
                 name = "M. Faaiq",
-                role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                role = "Made project body & added aesthetics",
                 image = Res.drawable.faiq
             )
         } else {
@@ -623,28 +617,28 @@ fun MembersScreen() {
             ) {
                 Member(
                     name = "M. Abdullah Umair",
-                    role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                    role = "Project Developer, Main coder of microchip",
                     image = Res.drawable.abd
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Member(
                     name = "M. Musab Khan",
-                    role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                    role = "Assisted in Development, Made of physical hardware",
                     image = Res.drawable.musab
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Member(
                     name = "M. Yousuf Jamil",
-                    role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
+                    role = "Android App, Desktop App & Website Developer",
                     image = Res.drawable.myj
                 )
+                Spacer(modifier = Modifier.width(10.dp))
+                Member(
+                    name = "M. Faaiq",
+                    role = "Made project body & added aesthetics",
+                    image = Res.drawable.faiq
+                )
             }
-            Spacer(modifier = Modifier.height(10.dp))
-            Member(
-                name = "M. Faaiq",
-                role = "Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus urna conubia; fusce faucibus ante arcu litora fringilla.",
-                image = Res.drawable.faiq
-            )
         }
         Spacer(Modifier.height(20.dp))
         Row(
@@ -808,6 +802,207 @@ fun FeaturesScreen() {
             HomeButton()
             Spacer(Modifier.width(10.dp))
             NextButton {
+                navigation.navigate("map")
+            }
+
+        }
+        Spacer(modifier = Modifier.height(50.dp))
+    }
+}
+
+@Composable
+fun MapScreen() {
+    @Composable
+    fun ShowImage(
+        image: DrawableResource
+    ) {
+        Column(
+            modifier = Modifier
+//                .fillMaxSize(0.8f)
+                .fillMaxWidth(0.8f)
+                .clip(RoundedCornerShape(25.dp))
+                .background(Colors.background)
+                .padding(25.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Image(
+                bitmap = imageResource(image),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .clip(RoundedCornerShape(25.dp)),
+                contentScale = ContentScale.Crop
+            )
+        }
+        Spacer(Modifier.height(10.dp))
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Colors.primary)
+            .padding(25.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Title(
+            text = "The Map",
+            color = Colors.onPrimaryVariant
+        )
+        DecorLine()
+        ShowImage(
+            image = Res.drawable.bg
+        )
+        Spacer(Modifier.height(20.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PreviousButton {
+                navigation.navigate("features")
+            }
+            Spacer(Modifier.width(10.dp))
+            HomeButton()
+            Spacer(Modifier.width(10.dp))
+            NextButton {
+                navigation.navigate("prospects")
+            }
+
+        }
+        Spacer(modifier = Modifier.height(50.dp))
+    }
+}
+
+
+@Composable
+fun ProspectsScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Colors.primary)
+            .padding(25.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Title(
+            text = "Prospects",
+            color = Colors.onPrimaryVariant
+        )
+        DecorLine()
+
+        @Composable
+        fun Prospect(
+            number: String,
+            description: String
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(50.dp)
+                        .clip(RoundedCornerShape(100.dp))
+                        .background(Colors.background),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = number,
+                        color = Colors.onPrimaryVariant,
+                        fontSize = 30.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = poppins
+                    )
+                }
+                Spacer(Modifier.width(10.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(25.dp))
+                        .background(Colors.primaryVariant)
+                        .padding(15.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = description,
+                        color = Colors.onPrimary,
+                        fontSize = 18.sp,
+                        style = typography.h4,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = poppins
+                    )
+                }
+            }
+            Spacer(Modifier.height(10.dp))
+        }
+
+        if (getSize() == "Small") {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Prospect(
+                    number = "1",
+                    description = "Making code that dynamically generates the map from location \'A\' to location \'B\'."
+                )
+                Prospect(
+                    number = "2",
+                    description = "Making large scale project & testing in harsh conditions."
+                )
+            }
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    bitmap = imageResource(Res.drawable.bg),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(width = 375.dp, height = 275.dp)
+                        .clip(RoundedCornerShape(20.dp)),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(Modifier.width(40.dp))
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Prospect(
+                        number = "1",
+                        description = "Making code that dynamically generates the map from location \'A\' to location \'B\'."
+                    )
+                    Prospect(
+                        number = "2",
+                        description = "Making large scale project & testing in harsh conditions."
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(20.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PreviousButton {
+                navigation.navigate("map")
+            }
+            Spacer(Modifier.width(10.dp))
+            HomeButton()
+            Spacer(Modifier.width(10.dp))
+            NextButton {
                 navigation.navigate("gallery")
             }
 
@@ -937,7 +1132,7 @@ fun GalleryScreen() {
             modifier = Modifier.fillMaxWidth()
         ) {
             PreviousButton {
-                navigation.navigate("features")
+                navigation.navigate("prospects")
             }
             Spacer(Modifier.width(10.dp))
             HomeButton()
@@ -1141,7 +1336,8 @@ fun ThemesScreen() {
                     background = theme.background
                 )
             }
-        } else {
+        }
+        else {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,

@@ -9,7 +9,12 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+
+    id("dev.hydraulic.conveyor") version "1.10"
 }
+
+group = "thedeliverer"
+version = "0.4.0"
 
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
@@ -76,8 +81,8 @@ android {
         applicationId = "com.myjworld.thedrone"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.4.0"
     }
     packaging {
         resources {
@@ -104,7 +109,7 @@ compose.desktop {
         mainClass = "com.myjworld.thedrone.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi)
             packageName = "com.myjworld.thedrone"
             packageVersion = "1.0.0"
         }
