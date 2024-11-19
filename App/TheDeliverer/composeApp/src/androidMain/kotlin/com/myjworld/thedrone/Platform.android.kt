@@ -18,3 +18,8 @@ actual fun getSize(): String {
 actual fun getPlatform(): String {
     return "Android ${Build.VERSION.SDK_INT}"
 }
+
+@Composable
+actual fun phoneAnroid(): Boolean {
+    return true
+}

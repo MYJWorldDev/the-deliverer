@@ -2,6 +2,8 @@ package com.myjworld.thedrone
 
 import androidx.compose.ui.graphics.Color
 
+// Theme
+
 object Colors {
     var primary = Color(0xFF969818e)
     var onPrimary = Color(0xFFe1eef4)

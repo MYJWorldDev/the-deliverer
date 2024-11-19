@@ -1,3 +1,5 @@
 package com.myjworld.thedrone
 
-expect fun downloadApp(url: String)
+// Function for web to open download page
+
+expect fun downloadApp(url: String): Boolean

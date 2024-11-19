@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "thedeliverer"
-version = "0.4.0"
+version = "1.0.0"
 
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
@@ -81,8 +81,8 @@ android {
         applicationId = "com.myjworld.thedrone"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 4
-        versionName = "0.4.0"
+        versionCode = 5
+        versionName = "1.0.0"
     }
     packaging {
         resources {

@@ -2,17 +2,18 @@ package com.myjworld.thedrone
 
 import kotlinx.browser.window
 
-actual fun downloadApp(url: String) {
+actual fun downloadApp(url: String): Boolean {
     val userAgent = window.navigator.userAgent
-    if (
+    return if (
         userAgent.contains("iPhone") ||
         userAgent.contains("iPad") ||
-        userAgent.contains("iPod")
-//        userAgent.contains("Macintosh") ||
-//        userAgent.contains("Mac OS")
+        userAgent.contains("iPod") ||
+        userAgent.contains("Macintosh") ||
+        userAgent.contains("Mac OS")
         ) {
-        window.location.href = "https://example.com"
+        false
     } else {
         window.location.href = url
+        true
     }
 }

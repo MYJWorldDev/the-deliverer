@@ -16,3 +16,9 @@ actual fun getSize(): String {
         "Large"
     }
 }
+
+@Composable
+actual fun phoneAnroid(): Boolean {
+    val userAgent = window.navigator.userAgent
+    return userAgent.contains("Android")
+}
