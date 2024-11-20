@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Text
@@ -32,6 +34,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.myjworld.thedrone.Colors
 import com.myjworld.thedrone.Fonts.poppins
 import com.myjworld.thedrone.downloadApp
@@ -104,7 +107,9 @@ fun NavigationBar(
                 fontFamily = poppins
             )
         }
-        Row {
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState())
+        ) {
             if (getSize() == "Small") {
                 Image(
                     imageVector = Icons.Default.Menu,
@@ -130,33 +135,64 @@ fun NavigationBar(
                 }
             }
             if (getPlatform() == "Web with Kotlin/Wasm") {
+                var supported by remember { mutableStateOf(true) }
                 val androidPhone = phoneAnroid()
-                Box(
-                    modifier = Modifier
-                        .size(30.dp)
-                        .clip(RoundedCornerShape(100.dp))
-                        .background(Colors.primary)
-                        .border(2.dp, Colors.onPrimary, RoundedCornerShape(100.dp))
-                        .clickable {
-                            if (androidPhone) {
-                                downloadApp("https://play.google.com/store/apps/details?id=com.myjworld.thedrone")
-                            } else {
-                                downloadApp("https://myj-world.github.io/the-deliverer/download.html")
-                            }
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.download),
-                        contentDescription = "Download App",
+                if (supported) {
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth(0.5f)
-                            .fillMaxHeight(0.5f),
-                        contentScale = ContentScale.FillBounds,
-                        colorFilter = ColorFilter.tint(Colors.onPrimary)
-                    )
+                            .size(30.dp)
+                            .clip(RoundedCornerShape(100.dp))
+                            .background(Colors.primary)
+                            .border(2.dp, Colors.onPrimary, RoundedCornerShape(100.dp))
+                            .clickable {
+                                if (androidPhone) {
+                                    val downloadSuccess =
+                                        downloadApp("https://play.google.com/store/apps/details?id=com.myjworld.thedrone")
+                                    if (!downloadSuccess) {
+                                        supported = false
+                                    }
+                                } else {
+                                    val downloadSuccess =
+                                        downloadApp("https://myj-world.github.io/the-deliverer/download.html")
+                                    if (!downloadSuccess) {
+                                        supported = false
+                                    }
+                                }
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.download),
+                            contentDescription = "Download App",
+                            modifier = Modifier
+                                .fillMaxWidth(0.5f)
+                                .fillMaxHeight(0.5f),
+                            contentScale = ContentScale.FillBounds,
+                            colorFilter = ColorFilter.tint(Colors.onPrimary)
+                        )
+                    }
+                }
+
+                if (!supported) {
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(100.dp))
+                            .background(Colors.primary)
+                            .border(2.dp, Colors.onPrimary, RoundedCornerShape(100.dp))
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Device not supported",
+                            color = Colors.onPrimary,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Normal,
+                            fontFamily = poppins
+                        )
+                    }
                 }
             }
+
             Spacer(Modifier.width(15.dp))
         }
     }
