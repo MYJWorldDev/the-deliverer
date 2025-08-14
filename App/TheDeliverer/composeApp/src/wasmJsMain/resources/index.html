@@ -6,7 +6,26 @@
     <title>The Deliverer</title>
     <link type="text/css" rel="stylesheet" href="styles.css">
     <script type="application/javascript" src="composeApp.js"></script>
+    <link rel="icon" href="composeResources/thedeliverer.composeapp.generated.resources/drawable/ic.png">
 </head>
 <body>
+    <img
+        id="loading-logo"
+        src="composeResources/thedeliverer.composeapp.generated.resources/drawable/ic.png"
+        alt="Loading Logo"
+        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px;"
+    />
+    <div id="loading-spinner"></div>
+    <script>
+        const logo = document.getElementById('loading-logo');
+        const spinner = document.getElementById('loading-spinner');
+
+        logo.style.display = 'none';
+
+        logo.addEventListener('load', () => {
+          spinner.style.display = 'none';
+          logo.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
